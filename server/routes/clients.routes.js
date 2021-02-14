@@ -1,5 +1,6 @@
 const ClientController = require("../controllers/clients.controllers");
-const AccountController = require("../controllers/account.controllers")
+const AccountController = require("../controllers/account.controllers");
+const Account = require("../models/account.model");
 
 module.exports = app => {
     //Clients Routes
@@ -9,5 +10,7 @@ module.exports = app => {
 
     //Acounts routes
     app.get("/api/accounts/:rut", AccountController.findOneSingleAccount);
-    app.put("/api/accounts/:rut/update", AccountController.updateExistingAccount)
+    app.get("/api/accounts", AccountController.findAllAccounts)
+    app.put("/api/accounts/transfer", AccountController.updateAccountByTransfer)
+    app.put("/api/accounts/update/:rut/", AccountController.updateExistingAccount)
 };

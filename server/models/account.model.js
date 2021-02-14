@@ -12,6 +12,16 @@ const HistorialSchema = new mongoose.Schema({
         unique: false,
         required: [true, 'Es obligatorio indicar el monto asignado a la operación'],
         min: [0, 'Cuenta no puede tener monto en negativo']
+    },
+    successful_operation: {
+        type: Boolean,
+        unique: false,
+        required: [true, 'Debe indicar el resultado de la operación']
+    },
+    operation_owner: {
+        type: String,
+        unique: false,
+        required: [true, 'Es obligatorio indicar rut de persona que realiza operación']
     }
 
 })

@@ -1,8 +1,21 @@
+const Account = require('../models/account.model');
 const Client = require('../models/client.model')
 
 module.exports.createNewClient = (req, res) => {
+    const historial = {
+        operation_amount: 0,
+        operation_type: 'creation',
+        successful_operation: true,
+        operation_owner: req.body.rut
+    }
     Client.create(req.body)
-        .then(createdUser => res.json({ user: createdUser }))
+        .then(createdUser => {
+            if (createdUser) {
+                Account.create({ client_rut: req.body.rut, amount: 0, historial: [historial] })
+                    .then(account => res.json({ user: createdUser, account: account }))
+                    .catch(err => res.status(400).json(err))
+            }
+        })
         .catch(err => res.status(400).json(err))
 };
 
