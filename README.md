@@ -61,7 +61,7 @@ $ npm install
 Para correr el proyecto
 
 ```sh
-$ npm run server
+$ npm run start
 ```
 
 Para ver el coverage
