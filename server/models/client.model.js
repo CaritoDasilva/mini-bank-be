@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const ClientSchema = new mongoose.Schema({
-    // numberAcount: {
-    //     type: Number,
-    //     unique: false,
-    //     required: [true, "Cliente debe tener un número de cuenta asociado"],
-    // },
     rut: {
         type: String,
         unique: true,

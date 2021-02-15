@@ -13,13 +13,14 @@ module.exports.updateExistingAccount = (req, res) => {
     Account.findOne({ client_rut: req.params.rut })
         .then(account => {
             if (account) {
-                console.log("🚀 ~ file: account.controllers.js ~ line 20 ~ user", account)
-                const amountToUpdate = accountService.updateUserAccount(account.amount, req.body.amountToUpdate, req.body.isDeposit);
+                console.log("🚀 ~ file: account.controllers.js ~ line 20 ~ user", req.body)
+                const amountToUpdate = accountService.updateUserAccount(account.amount, req.body.amount_to_update, req.body.isDeposit);
                 account.amount = amountToUpdate;
                 account.historial.push({
-                    operation_amount: req.body.amountToUpdate,
+                    operation_amount: req.body.amount_to_update,
                     operation_type: req.body.operation_type,
-                    successful_operation: account.amount === amountToUpdate ? false : true
+                    successful_operation: account.amount === amountToUpdate ? false : true,
+                    operation_owner: req.params.rut
                 })
                 account.save()
                 return res.json({ account: account })
@@ -32,10 +33,8 @@ module.exports.updateAccountByTransfer = (req, res) => {
     Account.findOne({ client_rut: req.body.operation_owner })
         .then(account => {
             if (account) {
-                console.log("🚀 ~ file: account.controllers.js ~ line 35 ~ account", account)
                 const amountToDiscount = accountService.updateUserAccount(account.amount, req.body.amount_to_update, false);
                 const isSuccesful = account.amount === amountToDiscount ? false : true;
-                console.log("🚀 ~ file: account.controllers.js ~ line 47 ~ isSuccesful", amountToDiscount)
                 account.amount = amountToDiscount;
                 account.historial.push({
                     operation_amount: req.body.amount_to_update,
