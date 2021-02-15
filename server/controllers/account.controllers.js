@@ -3,7 +3,7 @@ const accountService = require("../services/accounts.services");
 
 module.exports.findOneSingleAccount = (req, res) => {
     const password = req.header("Authorization");
-    Account.findOne({ rut: req.params.rut, password: password })
+    Account.findOne({ client_rut: req.params.rut, password: password })
         .then(oneSingleAccount => res.json({ account: oneSingleAccount }))
         .catch(err => res.status(400).json(err));
 };
@@ -13,7 +13,6 @@ module.exports.updateExistingAccount = (req, res) => {
     Account.findOne({ client_rut: req.params.rut })
         .then(account => {
             if (account) {
-                console.log("🚀 ~ file: account.controllers.js ~ line 20 ~ user", req.body)
                 const amountToUpdate = accountService.updateUserAccount(account.amount, req.body.amount_to_update, req.body.isDeposit);
                 account.amount = amountToUpdate;
                 account.historial.push({
